@@ -6,13 +6,6 @@ const customFormat = printf(({ level, message, timestamp }) => {
     return `${timestamp} [${level}]: ${message}`;
 });
 
-const infoOnlyFormat = format((info) => {
-    if (info.level === 'info') {
-        console.log('Logging info message:', info.message);
-        return info;
-    }
-    return false;
-})();
 
 const logger = createLogger({
     level: 'info',
