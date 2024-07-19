@@ -43,6 +43,11 @@ paths:
           description: Bad request
         500:
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
   /api/auth/login:
     post:
       summary: Login a user
@@ -74,6 +79,10 @@ paths:
                 $ref: '#/components/schemas/NotFoundResponse'
         500:
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
 
   /api/auth/logout:
     post:
@@ -102,6 +111,10 @@ paths:
                 $ref: '#/components/schemas/NotFoundResponse'
         500:
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
 
 
 
@@ -138,6 +151,7 @@ components:
         password: secret123
         confirmPassword: secret123
         gender: male
+    
     SignupResponse:
       type: object
       properties:
@@ -181,6 +195,22 @@ components:
         response:
           type: string
           example: "failed"
+    
+    InternalServerErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Please try again after some time"
+        status:
+          type: boolean
+          example: false
+        statusCode:
+          type: integer
+          example: 404
+        response:
+          type: string
+          example: "failed"      
 
     UnauthorizedResponse:
       type: object
