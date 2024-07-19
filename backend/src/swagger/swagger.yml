@@ -16,6 +16,8 @@ tags:
     description: The authentication API
   - name: User
     description: User management API
+  - name: Message
+    description: Message management API
 
 paths:
   /api/auth/signup:
@@ -150,6 +152,90 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponse'
 
+  /api/messages/send/{receiverId}:
+    post:
+      summary: Send a message
+      tags: [Message]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: receiverId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to send the message to
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequestBody'
+      responses:
+        201:
+          description: New message sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendMessageResponse'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
+  /api/messages/{userToChatId}:
+    get:
+      summary: Get messages for a conversation
+      tags: [Message]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userToChatId
+          required: true
+          schema:
+            type: string
+          description: ID of the user to get the messages with
+      responses:
+        200:
+          description: Fetched messages for the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMessagesResponse'
+        401:
+          description: Unauthorized 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResponse'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponse'
+
 
 
 components:
@@ -251,7 +337,7 @@ components:
       properties:
         message:
           type: string
-          example: "Page not found"
+          example: "Unauthorized - No Token Provided"
         status:
           type: boolean
           example: false
@@ -381,4 +467,75 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SidebarUserResponse'
+
+    Message:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "6699f6730eea25a407dd5795"
+        senderId:
+          type: string
+          example: "6699f6730eea25a407dd5795"
+        receiverId:
+          type: string
+          example: "6699f6730eea25a407dd5796"
+        message:
+          type: string
+          example: "Hello, how are you?"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2024-07-19T05:15:31.169Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2024-07-19T05:15:31.169Z"
+
+    SendMessageRequestBody:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The content of the message
+      example:
+        message: "Hello, how are you?"
+    
+    SendMessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "New message sent"
+        status:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 201
+        response:
+          type: object
+          properties:
+            newMessage:
+              $ref: '#/components/schemas/Message'
+
+    GetMessagesResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: ""
+        status:
+          type: boolean
+          example: true
+        statusCode:
+          type: integer
+          example: 200
+        response:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+
       

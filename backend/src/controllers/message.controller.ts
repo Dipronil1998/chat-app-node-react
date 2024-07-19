@@ -19,14 +19,14 @@ export const getMessages = async (req:AuthenticatedRequest,res:Response,next:Nex
     try {
         const { userToChatId } = req.params;
         const senderId = req.user?._id;
-
+        
         const conversation = await Conversation.findOne({
             participants: { $all: [senderId, new Types.ObjectId(userToChatId)] },
         }).populate('messages').lean<PopulatedConversation | null>();;
 
         if (!conversation) {
             logger.info('No message')
-            handleErrorMessage(res,200,'',[])
+            handleSuccessMessage(res,200,'',[])
             return;
         }
 
@@ -35,6 +35,7 @@ export const getMessages = async (req:AuthenticatedRequest,res:Response,next:Nex
         handleSuccessMessage(res,200,'',messages)
     } catch (error:any) {
         logger.error(error.message)
+        console.log(error);
         next(error)
     }
 }
