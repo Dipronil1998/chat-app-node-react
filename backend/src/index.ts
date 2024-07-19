@@ -10,7 +10,7 @@ import authRoutes from './routes/auth.routes'
 import messageRoutes from './routes/message.routes'
 import userRoutes from './routes/user.routes'
 import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './swagger/swagger';
+import swaggerDocument from './swagger/swagger';
 const app = express();
 
 app.use(helmet()); 
@@ -28,7 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
 // Use swagger-ui-express for your app documentation endpoint
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.use(pageNotFound);

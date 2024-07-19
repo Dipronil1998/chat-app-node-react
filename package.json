@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/yamljs": "^0.2.34",
+    "yamljs": "^0.3.0"
+  }
+}

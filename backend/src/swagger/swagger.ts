@@ -1,27 +1,9 @@
-// src/swagger.ts
-import swaggerJSDoc, { Options }  from 'swagger-jsdoc';
+// src/swagger/swagger.ts
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
 
+// Load the YAML file
+const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yml'));
 
-const swaggerDefinition = {
-  openapi: '3.0.0',
-  info: {
-    title: 'Chat API(Socket.io)',
-    version: '1.0.0',
-    description: 'This is a Chat Application API made with Express and documented with Swagger',
-  },
-  servers: [
-    {
-      url: 'http://localhost:8001',
-      description: 'Development server',
-    },
-  ],
-};
-
-const options:Options = {
-  swaggerDefinition,
-  apis: ['./src/routes/*.routes.ts']
-};
-
-const swaggerSpec = swaggerJSDoc(options);
-
-export default swaggerSpec;
+export default swaggerDocument;
