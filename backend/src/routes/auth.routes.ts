@@ -7,49 +7,78 @@ const router = express.Router();
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     SignupRequestBody:
  *       type: object
  *       required:
- *         - name
- *         - email
+ *         - fullName
+ *         - username
+ *         - password
+ *         - confirmPassword
+ *         - gender
  *       properties:
- *         id:
+ *         fullName:
  *           type: string
- *           description: The auto-generated id of the user
- *         name:
+ *           description: The full name of the user
+ *         username:
  *           type: string
- *           description: The name of the user
- *         email:
+ *           description: The username of the user
+ *         password:
  *           type: string
- *           description: The email of the user
+ *           description: The password of the user
+ *         confirmPassword:
+ *           type: string
+ *           description: The password confirmation
+ *         gender:
+ *           type: string
+ *           enum: [male, female]
+ *           description: The gender of the user
  *       example:
- *         id: d5fE_asz
- *         name: John Doe
- *         email: johndoe@example.com
+ *         fullName: John Doe
+ *         username: johndoe
+ *         password: secret123
+ *         confirmPassword: secret123
+ *         gender: male
  */
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: The users managing API
+ *   name: Auth
+ *   description: The authentication API
  */
 
 /**
  * @swagger
- * /users:
- *   get:
- *     summary: Returns the list of all the users
- *     tags: [Users]
+ * /api/auth/signup:
+ *   post:
+ *     summary: Signup a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SignupRequestBody'
  *     responses:
- *       200:
- *         description: The list of the users
+ *       201:
+ *         description: Signup successfully
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 fullName:
+ *                   type: string
+ *                 username:
+ *                   type: string
+ *                 profilePic:
+ *                   type: string
+ *       400:
+ *         description: Bad request
+ *       500:
+ *         description: Internal server error
  */
 router.post("/signup", signup);
 

@@ -1,5 +1,5 @@
 // src/swagger.ts
-import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerJSDoc, { Options }  from 'swagger-jsdoc';
 
 
 const swaggerDefinition = {
@@ -17,7 +17,7 @@ const swaggerDefinition = {
   ],
 };
 
-const options = {
+const options:Options = {
   swaggerDefinition,
   apis: ['./src/routes/*.routes.ts']
 };
