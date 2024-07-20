@@ -75,7 +75,7 @@ export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:Nex
         await Promise.all([conversation.save(), newMessage.save()]);
 
         logger.info('New message sent')
-        handleSuccessMessage(res, 201, 'New message sent', {newMessage})
+        handleSuccessMessage(res, 201, 'New message sent', newMessage)
 
     } catch (error:any) {
         logger.error(error.message)

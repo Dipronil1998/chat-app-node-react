@@ -23,7 +23,6 @@ const useSignup = () => {
 			if (!data.status) {
 				throw new Error(data.message);
 			}
-			console.log(data,"data");
 			localStorage.setItem("chat-user", JSON.stringify(data));
 			setAuthUser(data);
 		} catch (error) {
