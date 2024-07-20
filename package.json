@@ -2,5 +2,11 @@
   "dependencies": {
     "@types/yamljs": "^0.2.34",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.9",
+    "@babel/preset-env": "^7.24.8",
+    "@babel/preset-typescript": "^7.24.7",
+    "babel-jest": "^29.7.0"
   }
 }
