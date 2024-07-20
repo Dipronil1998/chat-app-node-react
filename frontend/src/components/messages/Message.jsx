@@ -11,8 +11,8 @@ const Message = ({ message }) => {
 	const profilePic = fromMe ? authUser.response.profilePic : selectedConversation?.profilePic;
     const bubbleBgColor = fromMe ? "bg-blue-500" : "";
 
-	// const shakeClass = message.shouldShake ? "shake" : "";
-    const shakeClass = "shake";
+	const shakeClass = message.shouldShake ? "shake" : "";
+
 
 	return (
 		<div className={`chat ${chatClassName}`}>
