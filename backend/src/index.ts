@@ -11,7 +11,8 @@ import messageRoutes from './routes/message.routes'
 import userRoutes from './routes/user.routes'
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './swagger/swagger';
-const app = express();
+import { app, server } from './socket/socket';
+
 
 app.use(helmet()); 
 app.use(cors()); 
@@ -34,7 +35,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(pageNotFound);
 app.use(errorHandler);
 
-app.listen(port, () => {
+server.listen(port, () => {
   connectToMongoDB();
   console.log(`Server is running at http://localhost:${port}`);
 });
