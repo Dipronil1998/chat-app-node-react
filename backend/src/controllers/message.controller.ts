@@ -4,6 +4,7 @@ import Conversation,{IConversation} from '../models/conversation.model'; // Adju
 import Message,{ IMessage } from '../models/message.model'; // Adjust the path as needed
 import logger from "../services/logger";
 import { handleErrorMessage, handleSuccessMessage } from "../utils/responseService";
+import { getReceiverSocketId, io } from "../socket/socket";
 
 interface AuthenticatedRequest extends Request {
     user?: {
@@ -73,6 +74,12 @@ export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:Nex
         }
 
         await Promise.all([conversation.save(), newMessage.save()]);
+
+        const receiverSocketId = getReceiverSocketId(receiverId);
+		if (receiverSocketId) {
+			// io.to(<socket_id>).emit() used to send events to specific client
+			io.to(receiverSocketId).emit("newMessage", newMessage);
+		}
 
         logger.info('New message sent')
         handleSuccessMessage(res, 201, 'New message sent', newMessage)
