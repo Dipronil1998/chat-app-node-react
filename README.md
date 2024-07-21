@@ -31,7 +31,7 @@ We use Swagger for API documentation. To access the Swagger UI, follow these ste
     ```
 
 2. **Open Swagger UI**:
-    Visit `http://localhost:3000/api-docs` in your browser to view the API documentation.
+    Visit `http://localhost:8001/api-docs` in your browser to view the API documentation.
 
 ## Getting Started
 
