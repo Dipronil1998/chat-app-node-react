@@ -43,7 +43,7 @@ export const getMessages = async (req:AuthenticatedRequest,res:Response,next:Nex
 
 export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:NextFunction):Promise<void> =>{
     try {
-        const { message }: { message: string } = req.body;
+        const { message,file }: { message: string, file:string } = req.body;
         const { receiverId } = req.params;
         const senderId = req.user?._id;
 
@@ -67,6 +67,7 @@ export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:Nex
             senderId,
             receiverId,
             message,
+            file
         });
 
         if (newMessage) {

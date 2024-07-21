@@ -4,6 +4,7 @@ export interface IMessage extends Document {
     senderId: mongoose.Types.ObjectId;
     receiverId: mongoose.Types.ObjectId;
     message: string;
+    file: string
 }
 
 const messageSchema: Schema<IMessage> = new Schema(
@@ -20,7 +21,9 @@ const messageSchema: Schema<IMessage> = new Schema(
         },
         message: {
             type: String,
-            required: true,
+        },
+        file: {
+            type: String,
         },
     },
     { timestamps: true }

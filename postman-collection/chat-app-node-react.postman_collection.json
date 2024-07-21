@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"fullName\": \"pritha Das\",\n    \"username\": \"pritha\",\n    \"password\": \"password123\",\n    \"confirmPassword\": \"password123\",\n    \"gender\": \"female\"\n}",
+					"raw": "{\n    \"fullName\": \"dipronil Das\",\n    \"username\": \"dipronil1\",\n    \"password\": \"123456\",\n    \"confirmPassword\": \"123456\",\n    \"gender\": \"female\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -43,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"dipronil\",\n    \"password\": \"password123\"\n}",
+					"raw": "{\n    \"username\": \"dipronil\",\n    \"password\": \"123456\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -135,7 +135,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"message\": \"hello\"\n}",
+					"raw": "{\n    \"message\": \"hello\",\n    \"file\":\"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -177,7 +177,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8001/api/messages/668d725007325cd469a3dbb8",
+					"raw": "http://localhost:8001/api/messages/6693c1450d8941a3095f0b9f",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -186,7 +186,7 @@
 					"path": [
 						"api",
 						"messages",
-						"668d725007325cd469a3dbb8"
+						"6693c1450d8941a3095f0b9f"
 					]
 				}
 			},
