@@ -27,8 +27,8 @@ const Message = ({ message }) => {
 				{isImage ? (
 					<img alt='Sent file' src={message.file} className='w-32 h-32 object-cover' />
 				) : message.file ? (
-					<a href={message.file} target='_blank' rel='noopener noreferrer'>
-						Sent a file
+					<a href={message.file} target='_blank' download>
+						{fromMe ? 'Sent you a file' :'Sent a file'}
 					</a>
 				) : null}
 			</div>

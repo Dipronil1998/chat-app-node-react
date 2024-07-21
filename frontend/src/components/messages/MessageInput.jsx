@@ -9,6 +9,9 @@ const MessageInput = () => {
 	const [message, setMessage] = useState('');
 	const {sendMessage, loading} =useSendMessage();
 
+    const MAX_FILE_SIZE_KB = 100; // Maximum file size in KB
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_KB * 1024; // Convert KB to bytes
+
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -22,6 +25,10 @@ const MessageInput = () => {
         const selectedFile = e.target.files[0];
         setFile(selectedFile);
         if (selectedFile) {
+            if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+                toast.error('File size must be under 100KB.');
+                return;
+            }
             setMessage(selectedFile.name);
         }
 	}
