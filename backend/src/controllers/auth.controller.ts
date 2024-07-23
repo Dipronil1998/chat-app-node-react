@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from 'bcryptjs';
+import { Types } from 'mongoose';
 import User from '../models/user.model';
 import generateTokenAndSetCookie  from '../utils/generateToken';
 import { handleErrorMessage, handleSuccessMessage } from "../utils/responseService";
@@ -12,6 +13,12 @@ interface SignupRequestBody {
     password: string;
     confirmPassword: string;
     gender: 'male' | 'female';
+}
+
+interface LogoutRequest extends Request {
+    user?: {
+        _id: Types.ObjectId;
+    };
 }
 
 export const signup = async (req:Request<{},{},SignupRequestBody>,res:Response,next:NextFunction):Promise<void> =>{
@@ -95,9 +102,11 @@ export const login = async (req:Request,res:Response,next:NextFunction):Promise<
     }
 }
 
-export const logout = async (req:Request,res:Response,next:NextFunction):Promise<void> =>{
+export const logout = async (req:LogoutRequest,res:Response,next:NextFunction):Promise<void> =>{
     try {
+        const userId = req?.user?._id;
         res.cookie("jwt", "", { maxAge: 0 });
+        await User.updateOne({_id: userId},{lastSeen: new Date()})
         logger.info("Logged out successfully")
         handleSuccessMessage(res, 200, "Logged out successfully",{})
     } catch (error:any) {

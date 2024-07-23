@@ -6,6 +6,7 @@ export interface IUser extends Document {
     password: string;
     gender: "male" | "female";
     profilePic?: string;
+    lastSeen: Date
 }
 
 const userSchema: Schema<IUser> = new Schema(
@@ -33,6 +34,9 @@ const userSchema: Schema<IUser> = new Schema(
             type: String,
             default: "",
         },
+        lastSeen: {
+            type: Date
+        }
     },
     { timestamps: true }
 );

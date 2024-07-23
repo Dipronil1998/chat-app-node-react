@@ -11,7 +11,7 @@ const LogoutButton = () => {
 				<BiLogOut className='w-6 h-6 text-white cursor-pointer' onClick={logout} />
 			) : (
 				<span className='loading loading-spinner'></span>
-			)}<p className="ml-2 text-white">{authUser?.response?.fullName}</p>
+			)}<p className="ml-2 text-white font-bold">{authUser?.response?.fullName}</p>
 		</div>
 	);
 };

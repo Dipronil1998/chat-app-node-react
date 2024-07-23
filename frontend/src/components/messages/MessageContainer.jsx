@@ -4,29 +4,51 @@ import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import { TiMessages } from "react-icons/ti";
+import moment from "moment"
+import { useSocketContext } from "../../context/SocketContext";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
-
+	const lastSeen = moment(selectedConversation?.lastSeen).fromNow();
+	const { onlineUsers } = useSocketContext();
+	const isOnline = onlineUsers.includes(selectedConversation?._id);
+	
 	useEffect(() => {
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);
-	
+
 	return (
 		<div className='md:min-w-[450px] flex flex-col'>
 			{!selectedConversation ? (
-				<NoChatSelected/>
-			): (
+				<NoChatSelected />
+			) : (
 				<>
-				<div className='bg-slate-500 px-4 py-2 mb-2'>
-					<span className='label-text'>To:</span> <span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
-				</div>
+					<div className="bg-slate-500 p-4 mb-2 rounded-md shadow-md">
+						<div className="flex justify-between items-center">
+							<div>
+								<span className="label-text text-gray-200">To:</span>
+								<span className="text-white font-bold ml-2">{selectedConversation.fullName}</span>
+							</div>
+							{!isOnline ? (
+								<div>
+									<span className="label-text text-gray-200">Last seen:</span>
+									<span className="text-white font-bold ml-2">{lastSeen}</span>
+								</div>
+							) : (
+								<div>
+									<span className="label-text text-gray-200">Status:</span>
+									<span className="text-white font-bold ml-2">Online</span>
+								</div>
+							)
+							}
 
-				<Messages />
-				<MessageInput />
-			</>
+						</div>
+					</div>
+					<Messages />
+					<MessageInput />
+				</>
 			)}
-			
+
 		</div>
 	);
 };
