@@ -9,6 +9,8 @@ import { getReceiverSocketId, io } from "../socket/socket";
 interface AuthenticatedRequest extends Request {
     user?: {
         _id: Types.ObjectId;
+        fullName: string;
+        profilePic:string;
     };
 }
 
@@ -46,6 +48,8 @@ export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:Nex
         const { message,file }: { message: string, file:string } = req.body;
         const { receiverId } = req.params;
         const senderId = req.user?._id;
+        const name = req.user?.fullName;
+        const profilePic  = req?.user?.profilePic;
 
         if (!senderId) {
             logger.error('Unauthorized');
@@ -79,7 +83,8 @@ export const sendMessage = async (req:AuthenticatedRequest,res:Response,next:Nex
         const receiverSocketId = getReceiverSocketId(receiverId);
 		if (receiverSocketId) {
 			// io.to(<socket_id>).emit() used to send events to specific client
-			io.to(receiverSocketId).emit("newMessage", newMessage);
+            console.log({name,receiverId, newMessage});
+			io.to(receiverSocketId).emit("newMessage", {name,receiverId, profilePic,newMessage});
 		}
 
         logger.info('New message sent')
