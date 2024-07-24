@@ -1,18 +1,45 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import { TiMessages } from "react-icons/ti";
-import moment from "moment"
+import moment from "moment";
 import { useSocketContext } from "../../context/SocketContext";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
-	const lastSeen = moment(selectedConversation?.lastSeen).fromNow();
 	const { onlineUsers } = useSocketContext();
+	const [lastSeen, setLastSeen] = useState(moment(selectedConversation?.lastSeen).fromNow());
 	const isOnline = onlineUsers.includes(selectedConversation?._id);
-	
+
+	useEffect(() => {
+		if (selectedConversation) {
+			setLastSeen(moment(selectedConversation.lastSeen).fromNow());
+		}
+	}, [selectedConversation]);
+
+	useEffect(() => {
+		const handleUserLogout = (userId) => {
+			if (userId === selectedConversation?._id) {
+				setLastSeen(moment().fromNow());
+			}
+		};
+
+		const eventEmitter = {
+			on: (event, handler) => {
+				if (event === "userLogout") {
+					setTimeout(() => handler(selectedConversation?._id), 5000); 
+				}
+			},
+			off: () => {},
+		};
+
+		eventEmitter.on("userLogout", handleUserLogout);
+
+		return () => eventEmitter.off("userLogout", handleUserLogout);
+	}, [selectedConversation]);
+
 	useEffect(() => {
 		return () => setSelectedConversation(null);
 	}, [setSelectedConversation]);
@@ -39,16 +66,13 @@ const MessageContainer = () => {
 									<span className="label-text text-gray-200">Status:</span>
 									<span className="text-white font-bold ml-2">Online</span>
 								</div>
-							)
-							}
-
+							)}
 						</div>
 					</div>
 					<Messages />
 					<MessageInput />
 				</>
 			)}
-
 		</div>
 	);
 };
