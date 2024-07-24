@@ -11,7 +11,7 @@ const useListenMessages = () => {
 	const { socket } = useSocketContext();
 	const { messages, setMessages } = useConversation();
 	const {authUser} = useAuthContext();
-	const { setSelectedConversation } = useConversation();
+	const { selectedConversation,setSelectedConversation } = useConversation();
 	const { conversations } = useGetConversations();
 
 	const handleNotificationClick = (senderId) => {
@@ -29,7 +29,9 @@ const useListenMessages = () => {
 			if(newMessage?.receiverId == authUser?.response?._id){
 				SendNotification(newMessage?.name, newMessage?.newMessage?.message,newMessage?.profilePic,() => handleNotificationClick(newMessage?.newMessage?.senderId));
 			}
-			setMessages([...messages, newMessage.newMessage]);
+			if(newMessage?.newMessage?.senderId === selectedConversation._id){
+				setMessages([...messages, newMessage.newMessage]);
+			}
 		});
 
 		return () => socket?.off("newMessage");
