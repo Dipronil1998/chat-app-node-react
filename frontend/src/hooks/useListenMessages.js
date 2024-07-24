@@ -25,11 +25,14 @@ const useListenMessages = () => {
 		socket?.on("newMessage", (newMessage) => {
 			newMessage.newMessage.shouldShake = true;
 			const sound = new Audio(notificationSound);
-			sound.play();
+			
 			if(newMessage?.receiverId == authUser?.response?._id){
+				sound.play().catch((error) => {
+					console.error( error);
+				  });
 				SendNotification(newMessage?.name, newMessage?.newMessage?.message,newMessage?.profilePic,() => handleNotificationClick(newMessage?.newMessage?.senderId));
 			}
-			if(newMessage?.newMessage?.senderId === selectedConversation._id){
+			if(selectedConversation && newMessage?.newMessage?.senderId === selectedConversation._id){
 				setMessages([...messages, newMessage.newMessage]);
 			}
 		});
