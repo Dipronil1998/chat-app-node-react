@@ -3,6 +3,7 @@ services:
   server:
     image: node:22
     working_dir: /app
+    container_name: chat-app-node
     ports:
       - "8001:8001"
     env_file:

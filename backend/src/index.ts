@@ -35,7 +35,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(pageNotFound);
 app.use(errorHandler);
 
-server.listen(port, () => {
-  connectToMongoDB();
-  console.log(`Server is running at http://localhost:${port}`);
-});
+// server.listen(port, () => {
+//   connectToMongoDB();
+//   console.log(`Server is running at http://localhost:${port}`);
+// });
+
+server.listen(Number(port), '0.0.0.0', () => {
+    connectToMongoDB();
+  console.log(`Server is running at http://0.0.0.0:${port}`);
+})

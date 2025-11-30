@@ -24,18 +24,26 @@ services:
       - ./backend/.env
     volumes:
       - ./backend:/usr/src/app
+      - /usr/src/app/node_modules   # prevent overwriting node_modules
+    command: ["npm", "run", "dev"]
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: frontend
-  #   ports:
-  #     - "5173:5173"
-  #   depends_on:
-  #     - backend
-  #   volumes:
-  #     - ./frontend:/usr/src/app
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # allow backend on local, if needed
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - VITE_API_URL=http://backend:8001   # useful if calling API directly
+    command: ["npm", "run", "dev"]
 
 volumes:
   mongo-data:

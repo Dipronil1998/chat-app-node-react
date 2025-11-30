@@ -1,21 +1,14 @@
-# version: '3.8'
-# services:
-#   web:
-#     build: .
-#     ports:
-#       - "3000:3000"
-#     environment:
-#       - NODE_ENV=production
-
-
-version: '3.8'
 services:
-  web:
+  react:
     build: .
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    container_name: chat-app-react
     ports:
       - "5173:5173"
+    # env_file:
+    #   - .env
+    # optional in dev if you want live code reload
     volumes:
       - .:/app
       - /app/node_modules
-    environment:
-      - CHOKIDAR_USEPOLLING=true
