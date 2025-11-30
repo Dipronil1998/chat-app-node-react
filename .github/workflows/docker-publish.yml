@@ -32,6 +32,7 @@ jobs:
           push: true
           tags: |
             ${{ env.REPO }}:backend-latest
+            ${{ env.REPO }}:latest
             ${{ env.REPO }}:backend-${{ env.SHORT_SHA }}
 
       # Build & push frontend image (two tags)
@@ -43,6 +44,7 @@ jobs:
           push: true
           tags: |
             ${{ env.REPO }}:frontend-latest
+            ${{ env.REPO }}:latest
             ${{ env.REPO }}:frontend-${{ env.SHORT_SHA }}
 
       - name: Logout (cleanup)
