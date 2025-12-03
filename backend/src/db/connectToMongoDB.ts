@@ -3,6 +3,8 @@ import logger from '../services/logger';
 
 const connectToMongoDB = async (): Promise<void>=>{
     try {
+		console.log(process.env.MONGO_URI,"LLLLL");
+		
 		await mongoose.connect(process.env.MONGO_URI as string);
 		console.log("Connected to MongoDB",process.env.MONGO_URI);
 		logger.info('Connected to MongoDB');
